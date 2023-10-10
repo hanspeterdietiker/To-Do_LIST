@@ -2,5 +2,5 @@
 
 Projeto To-Do List
 
-Tecnologias utilizadas: Java, Maven, Spring, PostMan e H2 (DataBase)
+Tecnologias utilizadas: Java, Maven, SpringBoot, PostMan e H2 (DataBase)
 
