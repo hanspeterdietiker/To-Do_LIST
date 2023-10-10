@@ -1,3 +1,3 @@
 # To-Do_LIST
-*
-Projeto RocketSeat 
+
+*Projeto RocketSeat 
