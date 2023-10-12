@@ -27,41 +27,52 @@ public class FilterTaskAuth extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
            
-         //Pegar a autenticação
-         var Authorization = request.getHeader("Authorization") ;      
-         
-         var authEncoded = Authorization.substring("Basic".length()).trim();
-         
-         byte[] authDecode = Base64.getDecoder().decode(authEncoded);
-
-         var authString = new String(authDecode);
-         
-         
-         String [] credentials = authString.split(":");
-         String username = credentials [0];
-         String password = credentials [1];       
-         
-         System.out.println("Authorization");
-         System.out.println(username);
-         System.out.println(password); 
-
-          //Validar senha
-                this.userRepository.findByUserName(username);
-                if(user == null){
-                    response.sendError(401);
-
-                } else{
-
-                   var passwordVerify = BCrypt.verifyer.verify(password.toCharArray(), user.getPassword());
-                 if (passwordVerify.verified) {
-                    filterChain.doFilter(request, response);
-                 } else{
-                    response.sendError(401);
-                 }
-                }
 
 
-         
+               var servletPath = request.getServletPath();
+               System.out.println("PATH"+ servletPath);
+               if (servletPath.startsWith("/task/")) {
+                  
+                  //Pegar a autenticação
+                  var Authorization = request.getHeader("Authorization") ;      
+                  
+                  var authEncoded = Authorization.substring("Basic".length()).trim();
+                  
+                  byte[] authDecode = Base64.getDecoder().decode(authEncoded);
+                  
+                  var authString = new String(authDecode);
+                  
+                  
+                  String [] credentials = authString.split(":");
+                  String username = credentials [0];
+                  String password = credentials [1];       
+                  
+                  System.out.println("Authorization");
+                  System.out.println(username);
+                  System.out.println(password); 
+                  
+                  //Validar senha
+                  var user = this.userRepository.findByUserName(username);
+                  if(user == null){
+                     response.sendError(401);
+                     
+                  } else{
+                     
+                     var passwordVerify = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword() );
+                     if (passwordVerify.verified) {
+                        request.setAttribute("idUser", user.getId());
+                        filterChain.doFilter(request, response);
+                     } else{
+                        response.sendError(401);
+                     }
+                     
+                  }
+         } else {
+
+            filterChain.doFilter(request, response);
+
+         }
+
         
     }
 
