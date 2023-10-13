@@ -22,49 +22,64 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/task")
 
+// Classe Controladora das Tasks do USUARIO na aplicação
 public class TaskController {
 
     @Autowired
-    private ITaskRepository taskRepository ;
+    private ITaskRepository taskRepository;
 
     @PostMapping("/")
-    public ResponseEntity create(@RequestBody TaskModel taskModel,HttpServletRequest request){
-       
-         var idUser = request.getAttribute("idUser");
-         taskModel.setIdUser((UUID) idUser);
-        
-         var currentDate = LocalDateTime.now();
+    public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request) {
 
-         if (currentDate.isAfter(taskModel.getStartAt()) || currentDate.isAfter(taskModel.getEndAt())  ){
+        var idUser = request.getAttribute("idUser");
+        taskModel.setIdUser((UUID) idUser);
+
+        var currentDate = LocalDateTime.now();
+
+        if (currentDate.isAfter(taskModel.getStartAt()) || currentDate.isAfter(taskModel.getEndAt())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body("A data de inicio deve ser após / a data de término deve ser maior qua a data atual");
-         }
-        
-        if (taskModel.getStartAt().isAfter(taskModel.getEndAt())){
+                    .body("A data de inicio deve ser após / a data de término deve ser maior qua a data atual");
+        }
+
+        if (taskModel.getStartAt().isAfter(taskModel.getEndAt())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body("A data de inicio deve ser menor do que a data de termino");
-         }
+                    .body("A data de inicio deve ser menor do que a data de termino");
+        }
 
         var task = this.taskRepository.save(taskModel);
-        return  ResponseEntity.status(HttpStatus.OK).body(task);
+        return ResponseEntity.status(HttpStatus.OK).body(task);
 
     }
-    
+
     @GetMapping("/")
-    public List<TaskModel> list (HttpServletRequest request){
+    public List<TaskModel> list(HttpServletRequest request) {
         var idUser = request.getAttribute("idUser");
-        var tasks = this.taskRepository.findByIdUser((UUID)idUser);
+        var tasks = this.taskRepository.findByIdUser((UUID) idUser);
         return tasks;
     }
 
     @PutMapping("/{id}")
-    public TaskModel update(@RequestBody TaskModel taskModel,@PathVariable UUID id,HttpServletRequest request){
+    public ResponseEntity update(@RequestBody TaskModel taskModel, @PathVariable UUID id, HttpServletRequest request) {
 
         var task = this.taskRepository.findById(id).orElse(null);
 
+
+        if (task == null ){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body("Tarefa não encontrada");
+        }
+
+        var idUser = request.getAttribute("idUser");
+
+        if (!task.getIdUser().equals(idUser)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Usuario nao tem permissao para alterar essa tarefa");
+
+        }
+
         Utils.copyNonNullProperties(taskModel, task);
-         
-        return this.taskRepository.save(task);
+        var taskUpdate = this.taskRepository.save(task);
+        return ResponseEntity.ok().body(taskUpdate);
     }
-    
+
 }

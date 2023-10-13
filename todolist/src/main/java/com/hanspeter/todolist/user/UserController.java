@@ -1,8 +1,5 @@
 package com.hanspeter.todolist.user;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,23 +17,22 @@ public class UserController {
     @Autowired
     private IUserRepository userRepository;
 
+    // Classe Controladora da Entidade User da aplicação
     @PostMapping("/")
-    public ResponseEntity create(@RequestBody UserModel userModel){
+    public ResponseEntity create(@RequestBody UserModel userModel) {
         var user = this.userRepository.findByUserName(userModel.getUserName());
 
-        if(user != null){
+        if (user != null) {
             System.out.println("Usuario Já existente");
-            
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario ja Existente");
         }
-        
-       var passwordHashred = BCrypt.withDefaults().hashToString(12, userModel.getPassword().toCharArray());
 
-       userModel.setPassword(passwordHashred);
+        var passwordHashred = BCrypt.withDefaults().hashToString(12, userModel.getPassword().toCharArray());
 
+        userModel.setPassword(passwordHashred);
 
-
-       var userCreated = this.userRepository.save(userModel);
-       return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
+        var userCreated = this.userRepository.save(userModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
     }
 }
