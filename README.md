@@ -2,7 +2,7 @@
 
 Projeto To-Do List
 
-Documentação API: [![!](https://documenter.getpostman.com/view/30375028/2s9YR56ur5)
+Documentação API: [![POSTMAN](https://documenter.getpostman.com/view/30375028/2s9YR56ur5)
 
 Tecnologias utilizadas: Java, Maven, SpringBoot, Git, PostMan e H2 (DataBase)
 
