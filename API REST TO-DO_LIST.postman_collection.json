@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "0eb9bdf5-eb6c-42dd-9034-818e4df0e49a",
+		"name": "API REST TO-DO_LIST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30375028",
+		"_collection_link": "https://orange-comet-702825.postman.co/workspace/b8d201ac-5c95-4b7b-8ea7-f323017dceba/collection/30375028-0eb9bdf5-eb6c-42dd-9034-818e4df0e49a?action=share&source=collection_link&creator=30375028"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/users/",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hanspeter",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Hanspeter\",\r\n    \"userName\": \"hanspeter\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						""
+					]
+				},
+				"description": "Criação e validação da Entity Users"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/task/",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "hanspeter",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\" : \"Teste To-do list\",\r\n    \"title\": \"To-do list\",\r\n    \"startAt\": \"2023-10-15T12:30:00\",\r\n    \"endAt\": \"2023-10-15T12:30:00\",\r\n    \"priority\":\"ALTA\"\r\n    \r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/task/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"task",
+						""
+					]
+				},
+				"description": "Criação e validação das Tasks da Entity Users"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/task/",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "hanspeter",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/task/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"task",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/task/73ee0b86-d7c9-4b11-b057-80faef7f400a",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "hanspeter",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n   \"title\": \"testando\",\r\n    \"description\": \"oi\"\r\n    \r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/task/73ee0b86-d7c9-4b11-b057-80faef7f400a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"task",
+						"73ee0b86-d7c9-4b11-b057-80faef7f400a"
+					]
+				},
+				"description": "Update nas Tasks dos Users na API"
+			},
+			"response": []
+		}
+	]
+}
